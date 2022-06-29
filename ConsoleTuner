@@ -1,0 +1,605 @@
+https://www.consoletuner.com/wiki/index.php?id=t2:gpc_scripting:examples_1
+
+HOME
+CONSOLETUNER NEWS
+COMMUNITY DISCORD
+COMMUNITY FORUMS
+REGISTER
+LOG IN
+logo^s
+youtubefacebooktwitter
+Titan TwoTitan OneSupportRetailers
+skip to content
+
+User's Manual and Documentation
+Site Tools
+Search
+Search
+Recent ChangesSitemap
+You are here: start » t2 » gpc_scripting » examples_1
+User's Manual
+Device Comparison
+Titan Two
+Compatibility Table
+Expansion Kit
+Setup Guides
+Gtuner IV Software
+Gamepacks
+Keyboard and Mouse
+GPC2 Scripting
+GPC2 Language Reference
+Examples
+Functions
+Combos
+Macros
+Data Types
+Persistent Memory
+Interactive Configuration
+Keyboard & More
+USB HID: KMG Output
+t2:gpc_scripting:examples_1
+GPC Script Examples
+The examples use the GPC Designators like BUTTON_5 or STICK_1_X , column GPC.
+
+There are always multiple ways to do a single thing. The examples don't claim to be the best solution to achieve something.
+
+Some examples make use of the printf function to demonstrate how to use it to write text or values of variables to the Output Panel during script development. You may want to remove or //comment the printf line when you have finished your script and use it for gaming.
+
+Action	Script
+On trigger activity fully press it	Hair Trigger
+On full forward stick movement press a button	Auto Sprint & By Value
+On button press do press it twice	Double Jump
+On button press loop combo n times	Loop <n> Times
+On button press loop combo endless	Loop Endless
+On button hold press it repetitive	Aim Assist Abuse
+On button hold press it repetitive	Bunny Hop
+On button hold press it repetitive	Rapid Fire
+On button double tap	Double Tap & Toggle
+
+Toggle script on/off - Script	Script & Toggle
+Toggle features on/off - Anti Recoil	Anti Recoil & Toggle
+Toggle features on/off - Auto Scope	Auto Scope & Toggle
+Toggle features on/off - Rapid Fire	Rapid Fire & Toggle
+Rapid Fire by Pressure	Rapid Fire & By Value
+Sensitivity Change	Sensitivity & On Hold
+
+LED control - on toggle	LED Control & Toggle
+Rumble control - on toggle	Rumble Control & Toggle
+Segment Display	Segment Display Control
+Hair Trigger
+When BUTTON_5 activity is recognized it will set the button to fully pressed, hair-trigger.
+
+main {
+    if (get_val(BUTTON_5)) set_val(BUTTON_5,100);
+}
+Auto Sprint
+On full forward movement of the left stick press the sprint button.
+
+main {
+    if (get_actual(STICK_2_Y) ==  -100.0) set_val(BUTTON_9,100);
+}
+or on smaller movement:
+
+main {
+    if (get_actual(STICK_2_Y) <=  -90.0) set_val(BUTTON_9,100);
+}
+Double Jump
+On the moment BUTTON_16 is getting pressed, changes from released to active state, run the combo cDoubleJump once.
+This will always result in getting BUTTON_16 pressed twice.
+
+main {
+  if (event_active(BUTTON_16)) combo_run(cDoubleJump);
+}
+ 
+combo cDoubleJump {
+  set_val(BUTTON_16,100); // press button 16
+  wait(200);              // (press) for 200ms
+  set_val(BUTTON_16,0);   // release button 16
+  wait(200);              // (release) for 200ms
+  set_val(BUTTON_16,100); // press button 16
+  wait(200);              // (press) for 200ms
+}
+This one will stop the combo as soon as you release BUTTON_16.
+This allows you to do a single jump if you press the button only for a short time.
+
+main {
+  if (event_active(BUTTON_16)) combo_run(cDoubleJump);
+  if (event_release(BUTTON_16)) combo_stop(cDoubleJump);
+}
+ 
+combo cDoubleJump {
+  set_val(BUTTON_16,100); // press button 16
+  wait(200);              // (press) for 200ms
+  set_val(BUTTON_16,0);   // release button 16
+  wait(200);              // (release) for 200ms
+}
+Loop Combo n Times
+When BUTTON_16 is getting pressed loop/play the combo cLoop 5 times.
+
+#define	LOOP	5 // loop 5 times
+uint8	iLoop;
+ 
+main {
+  if (event_active(BUTTON_16)) iLoop = LOOP; // initiate loop
+ 
+  if (iLoop) { // iLoop is not 0
+    if (!cLoop) { // combo is not running at the moment
+      iLoop--; // iLoop - 1
+      printf("starting combo cLoop, loops left: %d",iLoop); // write text to the Output Panel
+      combo_run(cLoop);
+    }
+  }
+}
+ 
+combo cLoop {
+  set_val(BUTTON_16,100);   // press button 16
+  wait(100);              // (press) for 100ms
+  set_val(BUTTON_16,0); // release button 16
+  wait(50);              // (release) for 50ms
+}
+Loop Combo Endless
+When BUTTON_16 is getting pressed play the combo in an endless loop. Press BUTTON_16 again to stop the endless loop.
+
+bool	bLoop=FALSE;
+ 
+main {
+  if (event_active(BUTTON_16)) bLoop = !bLoop; // invert the current state with each press TRUE<->FALSE
+ 
+  if (bLoop) combo_run(cLoop); // keep the combo playback active as long as bLoop == TRUE
+}
+ 
+combo cLoop {
+  set_val(BUTTON_16,100);   // press button 16
+  wait(100);              // (press) for 100ms
+  set_val(BUTTON_16,0); // release button 16
+  wait(50);              // (release) for 50ms
+}
+Aim Assist Abuse
+Press BUTTON_8 again and again if you hold it down 200ms or longer.
+
+main {
+  if (check_active(BUTTON_8,200)) combo_run(cAimAssistAbuse);
+}
+ 
+combo cAimAssistAbuse {
+  set_val(BUTTON_8,0);   // release button 8
+  wait(30);              // (release) for 30ms
+  set_val(BUTTON_8,100); // press button 8
+  wait(40);              // (press) for 40ms
+}
+Bunny Hop
+Press BUTTON_16 again and again if you hold it down 200ms or longer.
+Stops the combo on releasing the button.
+
+main {
+  if (check_active(BUTTON_16,200)) combo_run(cBunnyHop);
+  if (event_release(BUTTON_16)) combo_stop(cBunnyHop);
+}
+ 
+combo cBunnyHop {
+  set_val(BUTTON_16,0);  // release button 16
+  wait(200);             // (release) for 200ms
+  set_val(BUTTON_16,100);// press button 16
+  wait(200);             // (press) for 200ms
+}
+Double Tap
+Simple Double tap detection to run a combo:
+
+main {
+  // BUTTON_17 has to be pressed twice faster than 200ms
+  if (event_active(BUTTON_17) && time_release(BUTTON_17) < 200) {
+    combo_run(cCmb);
+  }
+}
+ 
+combo cCmb {
+  set_val(BUTTON_14,100); // press button
+  wait(400);              // (press) for 400ms
+  set_val(BUTTON_14,0);   // release button
+  wait(400);              // (release) for 400ms
+}
+Toggle the state on/off by double press of BUTTON_17 faster than 200ms.
+printf will write the text and value of bEnabled to the Output Panel of GTuner IV.
+It will press BUTTON_17 as long as bEnabled is TRUE.
+
+bool bEnabled=FALSE;
+ 
+main {
+  // BUTTON_17 has to be pressed twice faster than 200ms
+  if (event_active(BUTTON_17) && time_release(BUTTON_17) < 200) {
+    bEnabled = !bEnabled;                               // invert the current state 1 to 0 , or 0 to 1
+    printf("Double Tap, bEnabled is now: %d",bEnabled); // write out the value to the Output Panel
+  }
+  if (bEnabled) combo_run(cRepeat);
+}
+ 
+combo cRepeat {
+  set_val(BUTTON_17,100); // press button
+  wait(200);              // (press) for 200ms
+  set_val(BUTTON_17,0);   // release button
+  wait(200);              // (release) for 200ms
+}
+This will set bEnabled to TRUE on double press of the button and run the combo.
+A single press will set it to FALSE, no longer restarting the combo.
+
+bool bEnabled=FALSE;
+ 
+main {
+  if (event_active(BUTTON_17)) {
+    bEnabled = FALSE;
+    if (time_release(BUTTON_17) <= 200) {
+      bEnabled = TRUE;
+      printf("Double Tap");
+    }
+  }
+ 
+  if (bEnabled) combo_run(cRepeat);
+}
+ 
+combo cRepeat {
+  set_val(BUTTON_17,100); // press button
+  wait(200);              // (press) for 200ms
+  set_val(BUTTON_17,0);   // release button
+  wait(200);              // (release) for 200ms
+}
+This will set bEnabled to TRUE on double press of the button and run the combo.
+Keep the button pressed on the second press to repeat the combo.
+Releasing the button will set bEnabled to FALSE, no longer repeating the combo.
+
+bool bEnabled=FALSE;
+ 
+main {
+  if (event_active(BUTTON_17) && time_release(BUTTON_17) <= 200) { // start
+      bEnabled = TRUE;
+      printf("Double Tap");
+  }
+  if (event_release(BUTTON_17)) bEnabled = FALSE; // stop repeating on release
+ 
+  if (bEnabled) combo_run(cRepeat);
+}
+ 
+combo cRepeat {
+  set_val(BUTTON_17,100); // press button
+  wait(200);              // (press) for 200ms
+  set_val(BUTTON_17,0);   // release button
+  wait(200);              // (release) for 200ms
+}
+Script On/Off
+Press [Touch-Click|View] + [CROSS|A] to quickly enable/disable the script without unload the Memory Slot.
+
+bool bScript=FALSE;
+ 
+main {
+    // Playstation: Touch-Click + CROSS , XBox: View + A
+    if (get_actual(BUTTON_2) && event_active(BUTTON_16)) bScript = !bScript;
+ 
+    if (bScript) {
+        // Add your code to run when script is enabled here
+ 
+    }
+}
+Anti Recoil
+Anti Recoil moves the Aim Stick downward automatically to compensate the recoil of weapon when firing.
+
+There are different codes around for handling anti recoil for a gamepad or for mouse.
+
+Toggle Anti Recoil
+While holding BUTTON_8 press BUTTON_11 to toggle Anti Recoil usage on/off.
+
+This is a simple vertical recoil compensation only.
+
+bool bAntiRecoil=FALSE; // toggle flag
+ 
+fix32 RECOIL_V = 30.0; // vertical, adjust this to a value where firing your weapon will keep it more stable
+// If your crosshair drops to the ground you have set it to high. If you aim at the sky it may be to low.
+ 
+main {
+  // toggle
+  if (get_actual(BUTTON_8) && event_active(BUTTON_11)) bAntiRecoil = !bAntiRecoil;
+ 
+  // only use it when firing
+  if (bAntiRecoil && get_val(BUTTON_5)) {
+     set_val(STICK_1_Y,(RECOIL_V * (100.0 - abs(get_val(STICK_1_Y)))) / 100.0 + get_val(STICK_1_Y));
+  }  
+}
+This is a more complex anti recoil example.
+This one works good for both gamepad & mouse, code by Antithesis.
+
+bool bAntiRecoil=FALSE; // usage flag
+ 
+// You can adjust this value to the resting values of your right stick. Use the Device Monitor, 
+// move the sticks around and release them a couple of time. Put in the maximum resting value of your stick.
+#define StickNoise 4.32 
+ 
+fix32 RECOIL_V = 30.0; // vertical, adjust this to a value where firing your weapon will keep it more stable
+// If your crosshair drops to the ground you have set it to high. If you aim at the sky it may be to low.
+ 
+fix32 RECOIL_H = 0.0;  // horizontal
+// if you end up aiming always to the left side you have set the value to low
+// if you end up aiming always to the right side you have set the value to high
+ 
+main {
+  // toggle
+  if (get_actual(BUTTON_8) && event_active(BUTTON_11)) bAntiRecoil = !bAntiRecoil;
+ 
+  // only use when bAntirecoil is TRUE and firing
+  if (bAntiRecoil && get_val(BUTTON_5)) {
+    // Remove small unwanted movement as your controller sticks may not return to zero exactly after release.
+    if(abs(get_actual(STICK_1_X)) < StickNoise) { set_val(STICK_1_X, 0.0); }
+    if(abs(get_actual(STICK_1_Y)) < StickNoise) { set_val(STICK_1_Y, 0.0); }
+ 
+    AntiRecoil(STICK_1_Y,RECOIL_V); // Y Axis - vertical recoil compensation
+    AntiRecoil(STICK_1_X,RECOIL_H); // X Axis - horizontal recoil compensation
+  }  
+}
+ 
+// this is the function applying the anti recoil
+void AntiRecoil (uint8 axis, fix32 recoil)
+{
+   fix32 RY = get_actual(STICK_1_Y); // read the actual stick y value
+   fix32 RX = get_actual(STICK_1_X); // read the actual sitck x value
+ 
+   // only apply anti recoil if the actual movement of x&y is lower than the recoil to apply
+   if (get_val(BUTTON_5) && (sqrt(RX*RX + RY*RY)) <= abs(recoil))
+   {
+     if(abs(RY) <= abs(recoil)) // only apply when y movement is lower than the recoil to apply
+       {
+          set_val(axis,(recoil * (100.0 - abs(get_val(axis)))) / 100.0 + get_val(axis));
+       }
+    }
+}
+Auto Scope
+Auto Scope does press the scope button after a small delay when you press the aim button.
+
+Toggle Scope
+While holding BUTTON_8 press BUTTON_12 to toggle Auto Scope usage on/off.
+
+// toggle - auto scope
+bool bScope=FALSE;
+ 
+main {
+  // toggle
+  if (get_actual(BUTTON_8) && event_active(BUTTON_12)) bScope = !bScope;
+ 
+  // run auto scope only when it is enabled and at the moment you press BUTTON_8
+  if (bScope && event_active(BUTTON_8)) combo_run(cScope);
+}
+ 
+combo cScope {
+  wait(20);              // wait 20ms to shoulder the weapon
+  set_val(BUTTON_6,100); // press the scope button
+  wait(50);              // (press) for 50ms
+}
+Rapid Fire
+Rapid Fire does press and release the fire button while you are holding down the fire button.
+
+Simple Rapid Fire
+When you hold down the fire button the script will press and release the button fast.
+
+// Simple Rapid Fire
+main {
+  // run rapid fire only when press BUTTON_5
+  if (is_active(BUTTON_5)) combo_run(cRapidFire);
+  // stop when releasing button
+  if (event_release(BUTTON_5)) combo_stop(cRapidFire);
+}
+ 
+combo cRapidFire {
+  set_val(BUTTON_5,100); // press button 5
+  wait(40);              // (press) for 40ms
+  set_val(BUTTON_5,0);   // release button 5
+  wait(40);              // (release) for 40ms
+}
+Toggle Rapid Fire
+While holding BUTTON_8 press BUTTON_10 to toggle Rapid Fire usage on/off.
+
+// toggle - rapid fire
+bool bRapid=FALSE;
+ 
+main {
+  // toggle
+  if (get_actual(BUTTON_8) && event_active(BUTTON_10)) bRapid = !bRapid;
+ 
+  // run rapid fire only when it is enabled and you press BUTTON_5
+  if (bRapid) {
+      if (is_active(BUTTON_5)) combo_run(cRapidFire);
+      if (event_release(BUTTON_5)) combo_stop(cRapidFire);
+  }
+}
+ 
+combo cRapidFire {
+  set_val(BUTTON_5,100); // press button 5
+  wait(40);              // (press) for 40ms
+  set_val(BUTTON_5,0);   // release button 5
+  wait(40);              // (release) for 40ms
+}
+By Value Rapid Fire
+This will run the rapid fire combo only if BUTTON_5 is pressed less than 80.0 This works only with analog inputs only like BUTTON_5, BUTTON_8, the sticks, gyro's… Other buttons like _4, _6, _7, _9… are digital and will only return value 0.0 or 100.0
+
+// reaching this value rapid fire will be stopped
+fix32 RapidLimit=80.0;
+ 
+main {  
+  // run rapid fire only when BUTTON_5 is active and less than RapidLimit
+  if (is_active(BUTTON_5) && get_actual(BUTTON_5) < RapidLimit) combo_run(cRapidFire);
+  // stop it above that value or on release of the button
+  else if (event_release(BUTTON_5) || get_actual(BUTTON_5) >= RapidLimit) combo_stop(cRapidFire);
+}
+ 
+combo cRapidFire {
+  set_val(BUTTON_5,100); // press button 5
+  wait(40);              // (press) for 40ms
+  set_val(BUTTON_5,0);   // release button 5
+  wait(40);              // (release) for 40ms
+}
+Sensitivity
+As long as L3/LS is pressed, the right sticks sensitivity is modified
+
+#define SENSITIVITY  2.0
+ 
+main {
+    if (get_val(BUTTON_9)) {
+      set_val(STICK_1_X, clamp(get_val(STICK_1_X) * SENSITIVITY, -100.0, 100.0));
+      set_val(STICK_1_Y, clamp(get_val(STICK_1_Y) * SENSITIVITY, -100.0, 100.0));
+    }
+}
+LED
+Control the LED of the Controller and Titan Two.
+
+Important: Do not call the LED, Rumble or Segment display functions over and over again on each interaction of main. Call them on an actual change only.
+It depends on the “Device Lightbar” option in GTuner IV “Device Configuration” if it will also have effect on the Titan Two lightbar or the controller only.
+This example makes use of the custom header file ColorLED.gph from the Online Resource.
+More information about this header files is available at the forum here
+Copy the file ColorLED.gph into the same directory where your script file is and add this line to the top of your script:
+
+#include "ColorLED.gph"
+Color Names/Numbers to use for the function calls of ColorLED. The [parameter] are optional.
+ColorLED(ColorName, [BlinkTimeOn], [BlinkTimeOff], [BlinkCount], [PostBlinkColor]).
+Name	Index Number	Comment
+CB	1	Blue
+CR	5	Red
+CG	9	Green
+CP	13	Purple
+CC	17	Cyan
+CA	21	Amber
+CW	25	White
+Example function calls:
+
+//Blink in Color Green 200ms on / 200ms off, 2 times and reset the LED :
+ColorLED(CG,200,200,2);
+ 
+//Blink in Color Purple 100ms on / 100ms off, 4 times and set the LED to Green :
+ColorLED(CP,100,100,4,CG);
+ 
+//Permanent Color Red:
+ColorLED(CR);
+
+Blink Toggle
+Blinks the LED twice green on toggle on, twice red on toggle off. Each one sets the LED to blue after blinking is completed.
+
+While holding BUTTON_8 press BUTTON_11 to change the state of bToggle.
+
+#include "ColorLED.gph" // this line enables the use of this files content
+ 
+bool bToggle=FALSE;
+ 
+main {
+  // toggle state change, this will run once on every change of bToggle state
+  if (get_val(BUTTON_8) && event_active(BUTTON_11)) {
+    bToggle=!bToggle;
+    // blink 2x Green, each with 200ms ON + OFF, after blinking set color Blue
+    if (bToggle) ColorLED(CG,200,200,2,CB);  
+    // blink 2x Red, each with 200ms ON + OFF, after blinking set color Blue
+    else ColorLED(CR,200,200,2,CB);
+  }
+ 
+  if (bToggle) {
+    // put here the real code that should be run as long as the toggle is active
+  }
+}
+Rumble
+Control the Rumbles of the Controller.
+
+Take a look at ffb_set in the GPC Language Reference for all options for this function.
+
+Important: Do not call the LED, Rumble or Segment display functions over and over again on each interaction of main. Call them on an actual change only.
+We have to use combos for rumble feedback of script toggles/actions for letting the console control the rumbles again after our rumble command completed or to rumble more than one time.
+
+Rumble Combos
+These are the combos I use in my scripts.
+
+combo RumbleOnce {
+  ffb_set(FFB_1, 100.0, 250); // command motor FFB_1 to run at 100% for 250ms
+  wait(0);          // !Important! only run the previous lines once
+  wait(500);        // repeat the lines between this wait and the previous
+                    //  (none=just waiting) for 500ms
+  ffb_reset();      // this command allows the console to control the rumbles again
+}
+ 
+combo RumbleTwice {
+  call(RumbleOnce);       // call starts the combo RumbleOnce and waits for it
+                          //  to complete before going to the next command
+  call(RumbleOnce);       // start the same combo a second time
+}
+Rumble Toggle
+Rumbles once on toggle on, twice on toggle off.
+
+While holding BUTTON_8 press BUTTON_11 to change the state of bToggle.
+
+bool bToggle=FALSE;
+ 
+main {
+  // toggle state change, this will run once on every change of bToggle state
+  if (get_val(BUTTON_8) && event_active(BUTTON_11)) {
+    bToggle=!bToggle;
+    // rumble once on toggle on
+    if (bToggle) combo_run(RumbleOnce);
+    // rumble twice on toggle off
+    else combo_run(RumbleTwice);
+  }
+ 
+  if (bToggle) {
+    // put here the real code that should be run as long as the toggle is active
+  }
+}
+ 
+// paste both rumble combos here
+Segment Display
+Display something via the Segment Display of the Titan Two
+
+Important: Do not call the LED, Rumble or Segment display functions over and over again on each interaction of main. Call them on an actual change only.
+This requires you to use the header file display.gph using the function display_overlay
+This header file comes with GTuner IV.
+
+In contrast to custom header files you need to use < > instead of “ ” around the file to use.
+Add this line to the top of your script file to be able to use its content:
+
+#include <display.gph>
+Display Single Item
+Pressing one of the D-Pad directions will display something via the Titan Two segment display.
+
+// segment display
+#include <display.gph>
+ 
+main {
+  // show letter U for 2000ms
+  if (event_active(BUTTON_10)) display_overlay(_U_,2000); 
+  // show letter D for 2000ms
+  if (event_active(BUTTON_11)) display_overlay(_D_,2000);
+  // show 1. for 2000ms
+  if (event_active(BUTTON_12)) display_overlay(_1_|BOTTOM_DOT,2000);
+  // show 2. for 2000ms
+  if (event_active(BUTTON_13)) display_overlay(_2_|BOTTOM_DOT,2000);
+}
+All known identifiers are listed there display.gph
+
+Display Multiple Items/Text
+To display multiple characters/text or a number like '413' via the Segment Display of the Titan Two you can use the custom header file DWrite.gph from the Online Resource.
+More information about this header file is available at the forum here.
+Copy the file DWrite.gph into the same directory where your script file is and add this line to the top of your script:
+
+#include "DWrite.gph"
+Examples function calls:
+
+// Output a single words
+DWriteTxt("Hello");
+ 
+// Output multiple words
+DWriteTxt("Some more text");
+ 
+// Output a number (int32)
+DWriteNum(1457);
+Example using a combo
+For a combo example to display multiple items one after the other (countdown) take a look at the function display_overlay in the GPC Language Reference.
+Pay attention to the “wait(0);” line in the combo of that example !
+
+t2/gpc_scripting/examples_1.txt · Last modified: 2021/03/09 17:38 by scachi
+
+Home
+News
+Community Forums
+Contact US
+Copyright © 2010-2021 Jefferson Koppe. All rights reserved.
+_×
+Auto-Skip Ads
+Smuuvr v1.15.1
