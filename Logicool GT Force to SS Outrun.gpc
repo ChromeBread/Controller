@@ -1,0 +1,46 @@
+main {
+		// x to select
+    if(get_val(BUTTON_15) >= 75.5) {
+        set_val(BUTTON_7, 100.0);
+									set_val(BUTTON_15, 0);
+    }
+		// y to start
+    if(get_val(BUTTON_14) >= 75.5) {
+        set_val(BUTTON_3, 100.0);
+							set_val(BUTTON_14, 0);
+    }
+		// A to cross
+    if(get_val(BUTTON_7) >= 75.5) {
+        set_val(BUTTON_16, 100.0);
+									set_val(BUTTON_7, 0);
+    }
+		// B to circle
+    if(get_val(BUTTON_4) >= 75.5) {
+        set_val(BUTTON_15, 100.0);
+									set_val(BUTTON_4, 0);
+    }
+		// R to GEAR UP
+    if(get_val(BUTTON_16) >= 75.5) {
+        set_val(BUTTON_11, 100.0);
+					set_val(BUTTON_16, 0);
+    }
+		// L to GEAR DOWN
+    if(get_val(BUTTON_17) >= 75.5) {
+        set_val(BUTTON_10, 100.0);
+					set_val(BUTTON_17, 0);
+    }
+			// Left to D-Left
+    if(get_val(STICK_2_X) <= -75.5) {
+        set_val(BUTTON_12, 100.0);
+			set_val(STICK_2_X, 0);
+    }
+			// Right to D-Right
+    if(get_val(STICK_2_X) >= 75.5) {
+        set_val(BUTTON_13, 100.0);
+				set_val(STICK_2_X, 0);
+    }
+	    if (get_actual(STICK_2_Y) <=  -20.0) set_val(BUTTON_15,100);
+	    if (get_actual(STICK_2_Y) >=  20.0) set_val(BUTTON_16,100);
+						set_val(STICK_2_Y, 0);
+}
+#pragma METAINFO("SS Outrun Driving Force GT Control TYPE B", 1, 0, "CB")

@@ -1,0 +1,58 @@
+main {
+		// x to select
+    if(get_val(BUTTON_15) >= 75.5) {
+        set_val(BUTTON_2, 100.0);
+    }
+		// y to start
+    if(get_val(BUTTON_14) >= 75.5) {
+        set_val(BUTTON_3, 100.0);
+    }
+		// A to circle
+    if(get_val(BUTTON_7) >= 75.5) {
+        set_val(BUTTON_15, 100.0);
+    }
+		// B to cross
+    if(get_val(BUTTON_4) >= 75.5) {
+        set_val(BUTTON_16, 100.0);
+    }
+		// R to D-down
+    if(get_val(BUTTON_16) >= 75.5) {
+        set_val(BUTTON_11, 100.0);
+					set_val(BUTTON_16, 0);
+    }
+		// L to D-up
+    if(get_val(BUTTON_17) >= 75.5) {
+        set_val(BUTTON_10, 100.0);
+					set_val(BUTTON_17, 0);
+    }
+			// Left to D-Left
+    if(get_val(STICK_2_X) <= -75.5) {
+        set_val(BUTTON_12, 100.0);
+			set_val(STICK_2_X, 0);
+    }
+			// Right to D-Right
+    if(get_val(STICK_2_X) >= 75.5) {
+        set_val(BUTTON_13, 100.0);
+				set_val(STICK_2_X, 0);
+    }
+	    if (get_actual(STICK_2_Y) <=  -20.0) set_val(BUTTON_15,100);
+	    if (get_actual(STICK_2_Y) >=  20.0) set_val(BUTTON_16,100);
+						set_val(STICK_2_Y, 0);
+}
+#pragma METAINFO("RetroFreak Outrun Driving Force GT", 1, 0, "CB")
+ 
+
+#define RESTING_DEADZONE        10.8
+#define WHEEL_RESTING_VALUE     0.69
+#define WHEEL_SENSITIVITY       3.3
+ 
+main {
+    fix32 wheel_value = get_actual(STICK_2_X) + WHEEL_RESTING_VALUE;
+    fix32 direction = (wheel_value >= 0.0) ? 1.0 : -1.0;
+    wheel_value = abs(wheel_value);
+    if(wheel_value > 0.0) {
+        wheel_value *= WHEEL_SENSITIVITY;
+        wheel_value += RESTING_DEADZONE;
+        set_val(STICK_2_X, clamp(wheel_value, 0.0, 100.0) * direction);
+    }
+}

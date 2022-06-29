@@ -1,0 +1,62 @@
+#include <keyboard.gph>
+init {
+    // Load an Keyboard Mapping to reproduce Input-A
+    const uint8 map[] = {
+        KEY_A,          BUTTON_17, 
+        KEY_B,          BUTTON_7,
+        KEY_C,          BUTTON_4, 
+        KEY_D,          BUTTON_13, 
+        KEY_E,          BUTTON_11,
+        KEY_F,   BUTTON_2,
+        KEY_G,          BUTTON_10, 
+        KEY_H,  BUTTON_11, 
+        KEY_I,          BUTTON_12, 
+        KEY_J,          BUTTON_13, 
+        KEY_K,          BUTTON_1, 
+        KEY_L,          BUTTON_3, 
+        KEY_M,          BUTTON_7, 
+        KEY_N,          BUTTON_4, 
+        KEY_O,          BUTTON_14, 
+        KEY_P,        BUTTON_15, 
+        KEY_Q,          BUTTON_16, 
+        KEY_R,          BUTTON_17, 
+        KEY_S,          STICK_2_Y | KEYMAP_NEGATIVE, 
+        KEY_T,          STICK_2_Y, 		
+        KEY_U,          STICK_2_X | KEYMAP_NEGATIVE,
+        KEY_V,          STICK_2_X, 
+        KEY_W,          BUTTON_15,
+        KEY_X,          BUTTON_2, 
+        KEY_Y,          BUTTON_3, 
+    };
+    keymapping(map);
+}
+#include <remapper.gph>
+const uint8 MappingLayout[43] = {
+    RMP_USB_B,
+    BUTTON_13,  BUTTON_1,  BUTTON_3,  BUTTON_4,  BUTTON_5,  BUTTON_6,  BUTTON_7, 
+    BUTTON_2,  BUTTON_9,  BUTTON_10, BUTTON_11, BUTTON_12, BUTTON_13, BUTTON_14, 
+    BUTTON_14, BUTTON_16, BUTTON_17, BUTTON_18, BUTTON_12, BUTTON_15, BUTTON_21, 
+    STICK_1_X, STICK_1_Y, STICK_2_Y, STICK_2_X, 
+    POINT_1_X, POINT_1_Y, POINT_2_X, POINT_2_Y, 
+    ACCEL_1_X, ACCEL_1_Y, ACCEL_1_Z, ACCEL_2_X, ACCEL_2_Y, ACCEL_2_Z, 
+    GYRO_1_X,  GYRO_1_Y,  GYRO_1_Z,
+    PADDLE_1,  PADDLE_2,  PADDLE_3,  PADDLE_4
+};
+init { 
+    // using the controller on Input-B
+	// FrontLeft Keyboard or PS3
+	// FrontRight IIDX
+    remapper(MappingLayout);
+}
+#pragma METAINFO("PS4Deemo", 1, 0, "CB")
+main {
+    if(get_actual(STICK_2_Y) > 0.0) {
+        set_val(STICK_2_Y, inv(get_actual(STICK_2_Y)));
+    }
+    else set_val(STICK_2_Y, abs(get_actual(STICK_2_Y)));
+ 
+    if(get_actual(STICK_2_X) > 0.0) {
+        set_val(STICK_2_X, inv(get_actual(STICK_2_X)));
+    }
+    else set_val(STICK_2_X, abs(get_actual(STICK_2_X)));
+}

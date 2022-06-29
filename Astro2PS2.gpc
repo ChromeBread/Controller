@@ -1,0 +1,9 @@
+main {
+
+	// 
+	    if (get_actual(STICK_2_X) <=  -20.0) set_val(BUTTON_12,100);
+	if (get_actual(STICK_2_X) >=  20.0) set_val(BUTTON_13,100);
+	if (get_actual(STICK_2_Y) <=  -20.0) set_val(BUTTON_10,100);
+	if (get_actual(STICK_2_Y) >=  20.0) set_val(BUTTON_11,100);
+}
+#pragma METAINFO("Astro2PS2", 1, 0, "CB")

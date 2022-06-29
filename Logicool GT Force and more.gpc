@@ -1,0 +1,22 @@
+main {
+    if (get_actual(STICK_2_Y) <=  -20.0) set_val(BUTTON_5,100);
+	    if (get_actual(STICK_2_Y) >=  20.0) set_val(BUTTON_8,100);
+}
+
+#pragma METAINFO("Gran Turismo Sports Driving Force GT", 1, 7, "J2Kbr & Dj-Teddy")
+ 
+
+#define RESTING_DEADZONE        10.8
+#define WHEEL_RESTING_VALUE     0.69
+#define WHEEL_SENSITIVITY       3.3
+ 
+main {
+    fix32 wheel_value = get_actual(STICK_2_X) + WHEEL_RESTING_VALUE;
+    fix32 direction = (wheel_value >= 0.0) ? 1.0 : -1.0;
+    wheel_value = abs(wheel_value);
+    if(wheel_value > 0.0) {
+        wheel_value *= WHEEL_SENSITIVITY;
+        wheel_value += RESTING_DEADZONE;
+        set_val(STICK_2_X, clamp(wheel_value, 0.0, 100.0) * direction);
+    }
+}

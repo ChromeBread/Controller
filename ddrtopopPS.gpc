@@ -1,0 +1,6 @@
+main {
+
+	// 
+	    if (get_actual(STICK_2_Y) >=  20.0) set_val(BUTTON_13,100);
+}
+#pragma METAINFO("DDR to popn PS", 1, 0, "CB")

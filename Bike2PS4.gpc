@@ -1,0 +1,8 @@
+main {
+    if (get_actual(STICK_1_Y) <=  -10.0) set_val(BUTTON_5,100);
+			// GAS MAX to R1 Button
+    if(get_val(STICK_1_Y) <= -100.0) {
+        set_val(BUTTON_4, 100.0);
+    }
+    if (get_actual(STICK_1_Y) >=  60.0) set_val(BUTTON_8,100);
+}

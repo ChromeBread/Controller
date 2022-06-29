@@ -1,0 +1,4 @@
+main {
+    if (get_actual(STICK_2_Y) <=  -20.0) set_val(BUTTON_5,100);
+	    if (get_actual(STICK_2_Y) >=  20.0) set_val(BUTTON_8,100);
+}

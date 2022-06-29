@@ -1,0 +1,9 @@
+#pragma METAINFO("GBVS_SSarcade", 1, 0, "mdnpascual")
+main {
+	// shikaku hidari
+	    if(get_val(BUTTON_15) >= 75.5) {
+        set_val(BUTTON_12, 100.0);
+		set_val(BUTTON_17, 100.0);
+		set_val(BUTTON_15, 0);
+    }
+)

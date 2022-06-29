@@ -1,0 +1,14 @@
+#pragma METAINFO("KeyboardPathThru", 1, 0, "cb")
+#include <keyboard.gph>
+#include <mouse.gph>
+ 
+init {
+    keymapping();
+    mousemapping();
+}
+ 
+main {
+    key_passthru();
+    mouse_passthru();
+}
+ 

@@ -1,0 +1,61 @@
+#pragma METAINFO("IIDX for Project Diva Remapper", 1, 0, "mdnpascual")
+
+init 
+{
+	remapper_swap(BUTTON_20, BUTTON_15);
+	remapper_swap(BUTTON_15, BUTTON_17);
+}
+main {
+	// sankaku ue
+    if(get_val(BUTTON_14) >= 75.5) {
+        set_val(BUTTON_10, 100.0);
+    }
+	// maru migi
+	    if(get_val(BUTTON_15) >= 75.5) {
+        set_val(BUTTON_13, 100.0);
+		set_val(STICK_2_X, 0);
+		set_val(STICK_1_Y, 0);
+    }
+	// batsu shita
+	    if(get_val(BUTTON_16) >= 75.5) {
+        set_val(BUTTON_11, 100.0);
+    }
+	// shikaku hidari
+	    if(get_val(BUTTON_17) >= 75.5) {
+        set_val(BUTTON_12, 100.0);
+    }
+		// sukuracchi ue nashi
+	    if(get_val(BUTTON_1) >= 75.5) {
+        set_val(BUTTON_1, 0);
+        set_val(BUTTON_13, 100);
+			set_val(STICK_1_X, 0);
+			set_val(STICK_2_Y, 0);
+    }
+			// sukuracchi shita nashi
+	    if(get_val(BUTTON_19) >= 75.5) {
+        set_val(BUTTON_19, 0);
+        set_val(BUTTON_12, 100);
+			set_val(STICK_1_X, 0);
+			set_val(STICK_2_Y, 0);
+    }
+	// 2ken
+	if(get_val(BUTTON_8) >= 75.5) {
+	set_val(BUTTON_8, 0);
+	set_val(BUTTON_10, 100);
+    }
+	// 4ken
+	if(get_val(BUTTON_5) >= 75.5) {
+	set_val(BUTTON_5, 0);
+	set_val(BUTTON_11, 100);
+    }
+	// 6ken
+	if(get_val(BUTTON_7) >= 75.5) {
+	set_val(BUTTON_7, 0);
+	set_val(BUTTON_4, 100);
+    }
+		// SELECT wo PSbotan
+	if(get_val(BUTTON_2) >= 75.5) {
+	set_val(BUTTON_2, 0);
+	set_val(BUTTON_1, 100);
+    }
+}

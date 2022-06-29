@@ -1,0 +1,7 @@
+#define SENSITIVITY     2.0
+ 
+main {
+    set_val(STICK_1_X, clamp(get_val(STICK_1_X) * SENSITIVITY, -100.0, 100.0));
+    set_val(STICK_1_Y, clamp(get_val(STICK_1_Y) * SENSITIVITY, -100.0, 100.0));
+}
+ 

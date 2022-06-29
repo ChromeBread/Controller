@@ -1,0 +1,7 @@
+#pragma METAINFO("IIDX for Project Diva DeltaMacro", 1, 1, "mdnpascual")
+main {
+	// sankaku ue
+    if(get_val(STICK_2_Y) >= 75.5) 
+        set_val(BUTTON_17, 100.0);
+	        set_val(STICK_2_Y, 0);
+}

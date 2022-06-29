@@ -1,0 +1,11 @@
+#pragma METAINFO("schfesacAqurs", 1, 2, "CB")
+main{
+		if(event_active(BUTTON_9)) macro_run("sfacMBS.gmk");
+}
+bool bplay=FALSE;
+main {
+    if(event_active(BUTTON_6)) { // Run the Macro once.
+		bplay=!bplay;
+	}
+	if(bplay) macro_run("sfacMBSl.gmk");
+}

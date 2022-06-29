@@ -1,0 +1,8 @@
+main {
+
+	// ue
+	    if (get_actual(),-100.0) set_val(STICK_2_Y,-100);
+	    if (get_actual(STICK_2_Y) >=  20.0) set_val(BUTTON_15,100);
+						set_val(STICK_2_Y, 0);
+}
+#pragma METAINFO("PPPtoGenMini", 1, 0, "CB")

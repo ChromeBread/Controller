@@ -1,0 +1,6 @@
+#pragma METAINFO("Jog-Con", 1, 0, "CB")
+main {
+			if (get_actual(STICK_2_X) ) set_val(STICK_2_X,0);
+		if (get_actual(STICK_2_X) <=  -12.0) set_val(STICK_2_X,-100);
+	    if (get_actual(STICK_2_X) >=  12.0) set_val(STICK_2_X,100);
+}

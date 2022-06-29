@@ -1,0 +1,15 @@
+ 
+#pragma METAINFO("ADS Sensitivity", 1, 0, "bonefisher")
+ 
+#define X_SENSITIVITY  0.6
+#define Y_SENSITIVITY  0.5
+ 
+main {
+    if (get_actual(BUTTON_8))
+    {
+      set_val(STICK_1_X, clamp(get_val(STICK_1_X) * X_SENSITIVITY, -100.0, 100.0));
+      set_val(STICK_1_Y, clamp(get_val(STICK_1_Y) * Y_SENSITIVITY, -100.0, 100.0));
+    }
+}
+ 
+ 

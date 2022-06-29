@@ -1,0 +1,48 @@
+#pragma METAINFO("<author_name>", 1, 0, "")
+ 
+#define NOT_USE  0.0
+#define LS_SENSITIVITY  250.0
+#define RS_SENSITIVITY  250.0
+ 
+main {
+  sensitivity(STICK_2_X, NOT_USE, LS_SENSITIVITY);    
+  sensitivity(STICK_2_Y, NOT_USE, LS_SENSITIVITY);    
+  sensitivity(STICK_1_X, NOT_USE, RS_SENSITIVITY);
+  sensitivity(STICK_1_Y, NOT_USE, RS_SENSITIVITY);
+ 
+}
+ 
+void sensitivity(uint8 i, fix32 m, fix32 s) {
+    fix32 v = get_val(i);
+    if(v) {
+        if(m) {
+            v = (v > 0.0) ? midpoint(v, m) : midpoint(v * -1.0, m) * -1.0;
+        }
+        if(s) {
+            v = (v * s) / 100.0;
+        }
+        if(v > 100.0) v = 100.0;
+        else if(v < -100.0) v = -100.0;
+        set_val(i, v);
+    }
+    return;
+}
+ 
+fix32 midpoint(fix32 v, fix32 m) {
+    if(v <= m) return((v * 50.0) / m);
+    return(((50.0 * (v - m)) / (100.0 - m)) + 50.0);
+}
+ 
+#include <ps4.gph>
+ 
+main {
+    if (get_actual(PS4_LX) <= -100f) {
+        set_val(PS4_L1, 100);
+    }
+}
+main {
+    if (get_actual(PS4_LX) >= 80f) {
+        set_val(PS4_R1, 100);
+    }
+}
+ 

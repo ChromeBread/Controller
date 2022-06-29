@@ -1,0 +1,9 @@
+#pragma METAINFO("EoEjiji", 1, 0, "CB")
+bool bplay=FALSE;
+main {
+    if(event_active(BUTTON_8)) { // Run the Macro once.
+		bplay=!bplay;
+	}
+	if(bplay) macro_run("EoEjiji.gmk");
+	else macro_stop();
+}

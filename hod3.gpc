@@ -1,0 +1,180 @@
+// Simple Rapid Fire
+main {
+  // run rapid fire only when press BUTTON_5
+  if (is_active(STICK_1_Y)) combo_run(Macro2Combo);
+  // stop when releasing button
+  if (event_release(STICK_1_Y)) combo_stop(Macro2Combo) ;
+}
+ 
+combo cRapidFire {
+  set_val(BUTTON_7,100); // press button 5
+  wait(80);              // (press) for 40ms
+  set_val(BUTTON_7,0);   // release button 5
+  wait(82);              // (release) for 40ms
+	  set_val(BUTTON_7,100); // press button 5
+  wait(80);              // (press) for 40ms
+  set_val(BUTTON_7,0);   // release button 5
+  wait(82);              // (release) for 40ms
+	  set_val(BUTTON_7,100); // press button 5
+  wait(80);              // (press) for 40ms
+  set_val(BUTTON_7,0);   // release button 5
+  wait(82);              // (release) for 40ms
+	  set_val(BUTTON_7,100); // press button 5
+  wait(80);              // (press) for 40ms
+  set_val(BUTTON_7,0);   // release button 5
+  wait(82);              // (release) for 40ms
+	  set_val(BUTTON_7,100); // press button 5
+  wait(80);              // (press) for 40ms
+  set_val(BUTTON_7,0);   // release button 5
+  wait(82);              // (release) for 40ms
+	  set_val(BUTTON_7,100); // press button 5
+  wait(80);              // (press) for 40ms
+  set_val(BUTTON_7,0);   // release button 5
+  wait(82);              // (release) for 40ms
+    set_val(BUTTON_17,100); // press button 5
+  wait(80);              // (press) for 40ms
+  set_val(BUTTON_17,0);   // release button 5
+  wait(400);              // (release) for 40ms
+}
+combo Macrombo {
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(30);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+	    wait(30);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(30);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(30);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(30);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(30);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(30);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(40);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(30);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(30);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(30);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(30);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(30);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 100.00);
+    wait(30);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(20);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 100.00);
+    wait(20);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(40);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 100.00);
+    wait(20);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(400);
+}
+combo Ma2Combo {
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+	set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+	set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+	set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+    set_val(BUTTON_5, 100.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+	set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(80);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 100.00);
+    wait(80);
+    set_val(BUTTON_5, 0.00);
+    set_val(BUTTON_15, 0.00);
+    wait(210);
+}
+combo Macro2Combo {
+    set_val(BUTTON_14, 100.00);
+    wait(900);
+	    set_val(BUTTON_14, 0.00);
+    wait(40);
+}

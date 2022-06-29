@@ -1,0 +1,9 @@
+#include <PPPtoDIVA.gph>
+main {
+ 
+    if(get_val(BUTTON_1)) {
+        set_val(BUTTON_14, 0);
+        set_val(BUTTON_10, 0);
+    }
+ 
+}
