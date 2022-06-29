@@ -1,0 +1,17 @@
+#pragma METAINFO("AlienL1Run", 1, 0, "CB")
+// Simple Rapid Fire
+main {
+  // run rapid fire only when press BUTTON_7 L1
+  if (is_active(BUTTON_7)) combo_run(cRapidFire);
+  // stop when releasing button
+  if (event_release(BUTTON_7)) combo_stop(cRapidFire);
+}
+ 
+combo cRapidFire {
+	set_val(BUTTON_7, 0.0); // L1 release
+  set_val(BUTTON_6,100); // press button R3
+  wait(100);              // (press) for 100ms
+	set_val(BUTTON_7, 0.0); // L1 release
+  set_val(BUTTON_9,100);   // release button L3
+  wait(200);              // (release) for 200ms
+}
